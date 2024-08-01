@@ -1,3 +1,8 @@
 dependencies {
-    compile project(':crawler4j')
+    implementation project(':crawler4j')
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
+    implementation group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.36'
+    implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: '1.7.36'
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
+    implementation group: 'com.google.guava', name: 'guava', version: '33.2.1-jre'
 }

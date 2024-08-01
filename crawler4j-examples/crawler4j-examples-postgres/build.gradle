@@ -1,4 +1,7 @@
-
+plugins {
+  id 'java'
+}
+  
 repositories {
     mavenCentral()
     // Needed for 'com.palantir.docker.compose'
@@ -6,12 +9,16 @@ repositories {
 }
 
 dependencies {
-    compile project(':crawler4j')
+    implementation project(':crawler4j')
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
+    implementation group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.36'
+    implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: '1.7.36'
 
-    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.1'
-    compile group: 'com.mchange', name: 'c3p0', version: '0.9.5.3'
-    compile group: 'org.flywaydb', name: 'flyway-core', version: '5.0.7'
-    compile group: 'com.google.guava', name: 'guava', version: '24.0-jre'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile group: 'com.palantir.docker.compose', name: 'docker-compose-rule-junit4', version: '0.33.0'
+    // original is followings
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
+    implementation group: 'com.mchange', name: 'c3p0', version: '0.10.1'
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
+    implementation group: 'com.google.guava', name: 'guava', version: '33.2.1-jre'
+    testImplementation group: 'junit', name: 'junit', version: '4.13.2'
+    testImplementation group: 'com.palantir.docker.compose', name: 'docker-compose-rule-junit4', version: '2.3.0'
 }

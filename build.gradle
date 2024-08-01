@@ -1,9 +1,9 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '4.0.4' apply false
+    id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
 }
 
 wrapper {
-    gradleVersion = '5.2.1'
+    gradleVersion = '8.9'
     distributionType = Wrapper.DistributionType.ALL
 }
 
@@ -23,8 +23,10 @@ subprojects {
         mavenCentral()
     }
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    java {
+        sourceCompatibility = 21
+        targetCompatibility = 21
+    }
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
         options.fork = true
@@ -42,8 +44,8 @@ subprojects {
 
     tasks.withType(Checkstyle) {
         reports {
-            xml.enabled false
-            html.enabled false
+            xml.required = false
+            html.required = false
         }
     }
 
@@ -72,8 +74,8 @@ subprojects {
         }
 
         reports {
-            junitXml.enabled = false
-            html.enabled = true
+            junitXml.required = false
+            html.required = true
         }
 
         outputs.upToDateWhen { false }
