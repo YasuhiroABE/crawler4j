@@ -17,7 +17,7 @@ dependencies {
     // original is followings
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
     implementation group: 'com.mchange', name: 'c3p0', version: '0.10.1'
-    implementation group: 'org.flywaydb', name: 'flyway-core', version: '5.2.4'
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: '9.22.3'
     implementation group: 'com.google.guava', name: 'guava', version: '33.2.1-jre'
     testImplementation group: 'junit', name: 'junit', version: '4.13.2'
     testImplementation group: 'com.palantir.docker.compose', name: 'docker-compose-rule-junit4', version: '2.3.0'

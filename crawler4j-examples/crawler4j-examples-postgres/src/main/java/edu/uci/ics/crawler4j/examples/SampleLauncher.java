@@ -1,6 +1,7 @@
 package edu.uci.ics.crawler4j.examples;
 
 import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.configuration.ClassicConfiguration;
 
 import com.google.common.io.Files;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
@@ -46,8 +47,9 @@ public class SampleLauncher {
         controller.addSeed("https://pt.wikipedia.org/wiki/Protocolo");
         controller.addSeed("https://de.wikipedia.org/wiki/Datenbank");
 
-        Flyway flyway = new Flyway();
-        flyway.setDataSource(args[1], "crawler4j", "crawler4j");
+        ClassicConfiguration flywayConfig = new ClassicConfiguration();
+        flywayConfig.setDataSource(args[1], "crawler4j", "crawler4j");
+        Flyway flyway = new Flyway(flywayConfig);
         flyway.migrate();
 
         ComboPooledDataSource pool = new ComboPooledDataSource();
