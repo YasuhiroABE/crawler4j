@@ -141,7 +141,7 @@ def customizePom(pom) {
 
             name 'crawler4j'
             description 'crawler4j: Open Source Web Crawler for Java'
-            url 'https://github.com/yasserg/crawler4j'
+            url 'https://github.com/yasuhiroabe/crawler4j'
             licenses {
                 license {
                     name 'The Apache Software License, Version 2.0'
@@ -150,14 +150,15 @@ def customizePom(pom) {
             }
             developers {
                 developer {
-                    id 'yasserg'
-                    name 'Yasser Ganjisaffar'
+                    id 'YasuhiroABE'
+                    name 'Yasuhiro ABE'
+		    email 'yasu@yasundial.org'
                 }
             }
             scm {
-                connection 'scm:git:git@github.com:yasserg/crawler4j.git'
-                developerConnection 'scm:git:git@github.com:yasserg/crawler4j.git'
-                url 'https://github.com/yasserg/crawler4j'
+                connection 'scm:git:git@github.com:YasuhiroABE/crawler4j.git'
+                developerConnection 'scm:git:git@github.com:YasuhiroABE/crawler4j.git'
+                url 'https://github.com/yasuhiroabe/crawler4j'
             }
         }
     }
