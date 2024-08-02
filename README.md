@@ -1,10 +1,9 @@
-# crawler4j
-[![Build Status](https://travis-ci.org/yasserg/crawler4j.svg?branch=master)](https://travis-ci.org/yasserg/crawler4j)
-[![Maven Central](https://img.shields.io/maven-central/v/edu.uci.ics/crawler4j.svg?style=flat-square)](https://search.maven.org/search?q=g:edu.uci.ics%20a:crawler4j)
-[![Gitter Chat](http://img.shields.io/badge/chat-online-brightgreen.svg)](https://gitter.im/crawler4j/Lobby)
+# Modified crawler4j
 
 crawler4j is an open source web crawler for Java which provides a simple interface for
 crawling the Web. Using it, you can setup a multi-threaded web crawler in few minutes.
+
+The aim of this project is to bring the dependencies up to date.
 
 ## Table of content
 
@@ -22,9 +21,9 @@ Add the following dependency to your pom.xml:
 
 ```xml
     <dependency>
-        <groupId>edu.uci.ics</groupId>
+        <groupId>io.github.yasuhiroabe</groupId>
         <artifactId>crawler4j</artifactId>
-        <version>4.4.0</version>
+        <version>1.0.0</version>
     </dependency>
 ```
 
@@ -32,7 +31,7 @@ Add the following dependency to your pom.xml:
 
 Add the following dependency to your build.gradle file:
 
-    compile group: 'edu.uci.ics', name: 'crawler4j', version: '4.4.0'
+    compile group: 'io.github.yasuhiroabe', name: 'crawler4j', version: '1.0.0'
 
 ## Quickstart
 You need to create a crawler class that extends WebCrawler. This class decides which URLs
@@ -213,7 +212,7 @@ User-agent string is used for representing your crawler to web servers. See [her
 for more details. By default crawler4j uses the following user agent string:
 
 ```
-"crawler4j (https://github.com/yasserg/crawler4j/)"
+"crawler4j (https://github.com/yasuhiroabe/crawler4j/)"
 ```
 However, you can overwrite it:
 ```java
@@ -225,3 +224,7 @@ crawlConfig.setUserAgentString(userAgentString);
 Copyright (c) 2010-2018 Yasser Ganjisaffar
 
 Published under [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0), see LICENSE
+
+Copyright (c) 2024 Yasuhiro ABE
+
+The modified version is also distributed under [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0), see LICENSE
