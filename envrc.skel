@@ -1,0 +1,10 @@
+
+## https://zenn.dev/orangain/articles/publish-to-maven-central-using-gradle
+
+SONATYPE_USERNAME=""
+SONATYPE_PASSWORD=""
+GPG_SIGNING_KEY="$(gpg --armor --export-secret-keys __publickey_id__)"
+GPG_SIGNING_KEY_PASSPHRASE=""
+
+export SONATYPE_USERNAME SONATYPE_PASSWORD GPG_SIGNING_KEY GPG_SIGNING_KEY_PASSPHRASE
+
