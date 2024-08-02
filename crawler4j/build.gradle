@@ -123,27 +123,6 @@ publishing {
             pom.withXml {
                 def pomFile = file("${project.buildDir}/generated-pom.xml")
                 writeTo(pomFile)
-                def pomAscFile = signing.sign(pomFile).signatureFiles[0]
-                artifact(pomAscFile) {
-                    classifier = null
-                    extension = 'pom.asc'
-                }
-                //pomFile.delete()
-            }
-
-            // Sign the artifacts
-            project.tasks.signArchives.signatureFiles.each {
-                def jarFile = file(it.toString().replace(".asc",""))
-                def jarAscFile = signing.sign(jarFile).signatureFiles[0]
-                artifact(jarAscFile) {
-                    def matcher = it.file =~ /-(sources|javadoc)\.jar\.asc$/
-                    if (matcher.find()) {
-                        classifier = matcher.group(1)
-                    } else {
-                        classifier = null
-                    }
-                    extension = 'jar.asc'
-                }
             }
         }
     }
@@ -186,7 +165,7 @@ def customizePom(pom) {
 
 // https://zenn.dev/orangain/articles/publish-to-maven-central-using-gradle
 sonatypeCentralUpload {
-    dependsOn("jar", "sourcesJar", "javadocJar")
+    dependsOn("jar", "sourcesJar", "javadocJar", "generatePomFileForMavenJavaPublication")
 
     username = System.getenv("SONATYPE_USERNAME")
     password = System.getenv("SONATYPE_PASSWORD")
@@ -196,6 +175,7 @@ sonatypeCentralUpload {
         tasks.named("sourcesJar"),
         tasks.named("javadocJar"),
     )
+
     pom = file("${project.buildDir}/generated-pom.xml")
 
     signingKey = System.getenv("GPG_SIGNING_KEY")
