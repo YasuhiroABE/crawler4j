@@ -1,9 +1,14 @@
-description 'crawler4j: Open Source Web Crawler for Java'
+import cl.franciscosolis.sonatypecentralupload.SonatypeCentralUploadTask
 
-apply plugin: 'java'
-apply plugin: 'signing'
-apply plugin: 'maven-publish'
-apply plugin: 'com.github.johnrengelman.shadow'
+plugins {
+    id  'java'
+    id  'signing'
+    id  'maven-publish'
+    id  'com.github.johnrengelman.shadow'
+    id  'cl.franciscosolis.sonatype-central-upload' version '1.0.3'
+}
+
+// description 'crawler4j: Open Source Web Crawler for Java'
 
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
@@ -94,6 +99,10 @@ artifacts {
 }
 
 signing {
+    // https://docs.gradle.org/current/userguide/signing_plugin.html
+    def signingKey = System.getenv("GPG_SIGNING_KEY")
+    def signingPassword = System.getenv("GPG_SIGNING_KEY_PASSPHRASE")
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign configurations.archives
 }
 
@@ -119,12 +128,14 @@ publishing {
                     classifier = null
                     extension = 'pom.asc'
                 }
-                pomFile.delete()
+                //pomFile.delete()
             }
 
             // Sign the artifacts
             project.tasks.signArchives.signatureFiles.each {
-                artifact(it) {
+                def jarFile = file(it.toString().replace(".asc",""))
+                def jarAscFile = signing.sign(jarFile).signatureFiles[0]
+                artifact(jarAscFile) {
                     def matcher = it.file =~ /-(sources|javadoc)\.jar\.asc$/
                     if (matcher.find()) {
                         classifier = matcher.group(1)
@@ -133,17 +144,6 @@ publishing {
                     }
                     extension = 'jar.asc'
                 }
-            }
-        }
-    }
-    repositories {
-        maven {
-            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-            credentials {
-                username "$sonatypeUsername"
-                password "$sonatypePassword"
             }
         }
     }
@@ -184,11 +184,20 @@ def customizePom(pom) {
     }
 }
 
-model {
-    tasks.publishMavenJavaPublicationToMavenLocal {
-        dependsOn(project.tasks.signArchives)
-    }
-    tasks.publishMavenJavaPublicationToMavenRepository {
-        dependsOn(project.tasks.signArchives)
-    }
+// https://zenn.dev/orangain/articles/publish-to-maven-central-using-gradle
+sonatypeCentralUpload {
+    dependsOn("jar", "sourcesJar", "javadocJar")
+
+    username = System.getenv("SONATYPE_USERNAME")
+    password = System.getenv("SONATYPE_PASSWORD")
+
+    archives = files(
+        tasks.named("jar"),
+        tasks.named("sourcesJar"),
+        tasks.named("javadocJar"),
+    )
+    pom = file("${project.buildDir}/generated-pom.xml")
+
+    signingKey = System.getenv("GPG_SIGNING_KEY")
+    signingKeyPassphrase = System.getenv("GPG_SIGNING_KEY_PASSPHRASE")
 }
