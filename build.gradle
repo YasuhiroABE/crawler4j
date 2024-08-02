@@ -11,8 +11,8 @@ allprojects {
     apply plugin: 'idea'
     apply plugin: 'eclipse'
 
-    group = 'edu.uci.ics'
-    version = '4.5.0-SNAPSHOT'
+    group = 'io.github.yasuhiroabe'
+    version = '1.0.0-SNAPSHOT'
 }
 
 subprojects {
