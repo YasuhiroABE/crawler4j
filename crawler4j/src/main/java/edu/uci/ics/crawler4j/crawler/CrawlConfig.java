@@ -66,7 +66,7 @@ public class CrawlConfig {
      * user-agent string that is used for representing your crawler to web
      * servers. See http://en.wikipedia.org/wiki/User_agent for more details
      */
-    private String userAgentString = "crawler4j (https://github.com/yasserg/crawler4j/)";
+    private String userAgentString = "crawler4j (https://github.com/yasuhiroabe/crawler4j/)";
 
     /**
      * Default request header values.
