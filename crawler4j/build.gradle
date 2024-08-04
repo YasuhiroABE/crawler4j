@@ -26,52 +26,11 @@ dependencies {
     implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: '1.7.36'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
     implementation group: 'com.sleepycat', name: 'je', version: '18.3.12'
-    implementation(group: 'org.apache.tika', name: 'tika-parsers', version: '1.28.5') {
-        exclude(module: 'poi-ooxml')
-        exclude(module: 'poi-scratchpad')
-        exclude(module: 'poi-ooxml')
-        exclude(module: 'poi-ooxml-schemas')
-        exclude(module: 'pdfbox')
-        exclude(module: 'pdfbox-tools')
-        exclude(module: 'jempbox')
-        exclude(module: 'jmatio')
-        exclude(module: 'jackcess')
-        exclude(module: 'jackcess-encrypt')
-        exclude(module: 'xz')
-        exclude(module: 'junrar')
-        exclude(module: 'opennlp-tools')
-        exclude(module: 'sis-utility')
-        exclude(module: 'sis-netcdf')
-        exclude(module: 'sis-metadata')
-        exclude(module: 'geoapi')
-        exclude(module: 'java-libpst')
-        exclude(module: 'rome')
-        exclude(module: 'json')
-        exclude(module: 'netcdf4')
-        exclude(module: 'grib')
-        exclude(module: 'cdm')
-        exclude(module: 'httpservices')
-        exclude(module: 'vorbis-java-tika')
-        exclude(module: 'vorbis-java-core')
-        exclude(module: 'asm')
-        exclude(module: 'isoparser')
-        exclude(module: 'metadata-extractor')
-        exclude(module: 'commons-csv')
-        exclude(module: 'commons-exec')
-        exclude(module: 'commons-compress')
-        exclude(module: 'commons-codec')
-        exclude(module: 'json-simple')
-        exclude(module: 'gson')
-        exclude(module: 'boilerpipe')
-        exclude(module: 'juniversalchardet')
-        exclude(module: 'jhighlight')
-        exclude(module: 'bcmail-jdk15on')
-        exclude(module: 'bcprov-jdk15on')
-        exclude(module: 'cxf-rt-rs-client')
-        exclude(module: 'jackson-core')
-        exclude(module: 'json')
-        exclude(module: 'sentiment-analysis-parser')
-    }
+
+    implementation group: 'org.apache.tika', name: 'tika-core', version: '2.9.2'
+    implementation group: 'org.apache.tika', name: 'tika-parsers-standard-package', version: '2.9.2'
+    implementation group: 'org.apache.tika', name: 'tika-langdetect-tika', version: '2.9.2'
+
     implementation group: 'io.github.pgalbraith', name: 'url-detector', version: '0.1.20'
     implementation group: 'com.google.guava', name: 'guava', version: '33.2.1-jre'
     implementation group: 'de.malkusch.whois-server-list', name: 'public-suffix-list', version: '2.2.0'
