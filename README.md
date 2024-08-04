@@ -13,6 +13,7 @@ The aim of this project is to bring the dependencies up to date.
 - [Configuration Details](#configuration-details)
 - [License](#license)
 - [Building Process](#building-process)
+- [Changelog](#changelog)
 
 ## Installation
 
@@ -249,3 +250,18 @@ $ ./gradlew sonatypeCentralUpload
 ```
 
 The **envrc.skel** file contains environmental variables that need to be set.
+
+## Changelog
+
+### [1.0.0]
+
+* Initial release
+
+### [1.0.1]
+
+* Fixed the metadata (contents is same as the 1.0.0 release)
+
+### [1.0.2]
+
+* Upgraded the apache tika version from 1.28.5 to 2.9.2
+
