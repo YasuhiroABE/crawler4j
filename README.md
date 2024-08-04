@@ -12,6 +12,7 @@ The aim of this project is to bring the dependencies up to date.
 - [More Examples](#more-examples)
 - [Configuration Details](#configuration-details)
 - [License](#license)
+- [Building Process](#building-process)
 
 ## Installation
 
@@ -228,3 +229,23 @@ Published under [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 Copyright (c) 2024 Yasuhiro ABE
 
 The modified version is also distributed under [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0), see LICENSE
+
+## Building Process
+
+The building process has been changed from the original.
+
+This package uses the **cl.franciscosolis.sonatype-central-upload** plugin to upload the package to the maven central.
+
+```bash
+## To validate the source code, do the following;
+$ ./gradlew compileJava
+
+## The following command checks the code is almost ready to release.
+$ ./gradlew clean build
+
+	## To upload the singing package to the maven central
+$ ./envrc
+$ ./gradlew sonatypeCentralUpload
+```
+
+The **envrc.skel** file contains environmental variables that need to be set.
