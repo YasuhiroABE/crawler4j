@@ -21,9 +21,9 @@ configurations.all {
 // https://stackoverflow.com/questions/23796404/could-not-find-method-compile-for-arguments-gradle
 
 dependencies {
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
-    implementation group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.36'
-    implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: '1.7.36'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.13'
+    implementation group: 'org.slf4j', name: 'jcl-over-slf4j', version: '2.0.13'
+    implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: '2.0.13'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
     implementation group: 'com.sleepycat', name: 'je', version: '18.3.12'
 
