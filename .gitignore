@@ -3,6 +3,9 @@
 build
 envrc
 
+## Emacs
+*~
+
 # IntelliJ IDEA
 **/*.iml
 
