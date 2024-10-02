@@ -25,7 +25,7 @@ Add the following dependency to your pom.xml:
     <dependency>
         <groupId>io.github.yasuhiroabe</groupId>
         <artifactId>crawler4j</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.2</version>
     </dependency>
 ```
 
@@ -33,7 +33,7 @@ Add the following dependency to your pom.xml:
 
 Add the following dependency to your build.gradle file:
 
-    compile group: 'io.github.yasuhiroabe', name: 'crawler4j', version: '1.0.0'
+    compile group: 'io.github.yasuhiroabe', name: 'crawler4j', version: '1.0.2'
 
 ## Quickstart
 You need to create a crawler class that extends WebCrawler. This class decides which URLs
@@ -253,15 +253,16 @@ The **envrc.skel** file contains environmental variables that need to be set.
 
 ## Changelog
 
-### [1.0.0]
+### [1.0.2]
 
-* Initial release
+* Upgraded the apache tika version from 1.28.5 to 2.9.2
 
 ### [1.0.1]
 
 * Fixed the metadata (contents is same as the 1.0.0 release)
 
-### [1.0.2]
+### [1.0.0]
 
-* Upgraded the apache tika version from 1.28.5 to 2.9.2
+* Initial release
+
 
