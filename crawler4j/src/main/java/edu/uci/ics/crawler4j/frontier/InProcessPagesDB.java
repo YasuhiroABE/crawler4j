@@ -17,15 +17,12 @@
 
 package edu.uci.ics.crawler4j.frontier;
 
+import java.sql.SQLException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sleepycat.je.Cursor;
-import com.sleepycat.je.DatabaseEntry;
-import com.sleepycat.je.Environment;
-import com.sleepycat.je.OperationStatus;
-import com.sleepycat.je.Transaction;
-
+import edu.uci.ics.crawler4j.db.DerbyEnvironment;
 import edu.uci.ics.crawler4j.url.WebURL;
 
 /**
@@ -40,7 +37,7 @@ public class InProcessPagesDB extends WorkQueues {
 
     private static final String DATABASE_NAME = "InProcessPagesDB";
 
-    public InProcessPagesDB(Environment env) {
+    public InProcessPagesDB(DerbyEnvironment env) {
         super(env, DATABASE_NAME, true);
         long docCount = getLength();
         if (docCount > 0) {
@@ -51,20 +48,14 @@ public class InProcessPagesDB extends WorkQueues {
 
     public boolean removeURL(WebURL webUrl) {
         synchronized (mutex) {
-            DatabaseEntry key = getDatabaseEntryKey(webUrl);
-            DatabaseEntry value = new DatabaseEntry();
-            Transaction txn = beginTransaction();
-            try (Cursor cursor = openCursor(txn)) {
-                OperationStatus result = cursor.getSearchKey(key, value, null);
-
-                if (result == OperationStatus.SUCCESS) {
-                    result = cursor.delete();
-                    if (result == OperationStatus.SUCCESS) {
-                        return true;
-                    }
+            try {
+                String key = getDatabaseEntryKey(webUrl);
+                if (urlsDB.contains(key)) {
+                    urlsDB.delete(key);
+                    return true;
                 }
-            } finally {
-                commit(txn);
+            } catch (SQLException e) {
+                logger.error("Failed to remove URL from database", e);
             }
         }
         return false;

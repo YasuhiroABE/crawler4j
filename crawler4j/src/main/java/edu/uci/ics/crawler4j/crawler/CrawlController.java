@@ -27,9 +27,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sleepycat.je.Environment;
-import com.sleepycat.je.EnvironmentConfig;
-
+import edu.uci.ics.crawler4j.db.DerbyEnvironment;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.frontier.DocIDServer;
 import edu.uci.ics.crawler4j.frontier.Frontier;
@@ -82,7 +80,7 @@ public class CrawlController {
     protected TLDList tldList;
 
     protected final Object waitingLock = new Object();
-    protected final Environment env;
+    protected final DerbyEnvironment env;
 
     protected Parser parser;
 
@@ -117,7 +115,7 @@ public class CrawlController {
 
         boolean resumable = config.isResumableCrawling();
 
-        EnvironmentConfig envConfig = new EnvironmentConfig();
+        DerbyEnvironment.DerbyEnvironmentConfig envConfig = new DerbyEnvironment.DerbyEnvironmentConfig();
         envConfig.setAllowCreate(true);
         envConfig.setTransactional(resumable);
         envConfig.setLocking(resumable);
@@ -139,7 +137,7 @@ public class CrawlController {
                         " ( as you have configured resumable crawling to false )");
         }
 
-        env = new Environment(envHome, envConfig);
+        env = new DerbyEnvironment(envHome, envConfig);
         docIdServer = new DocIDServer(env, config);
         frontier = new Frontier(env, config);
 

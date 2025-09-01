@@ -21,19 +21,15 @@ import java.io.Serializable;
 import java.util.Map;
 
 import com.google.common.net.InternetDomainName;
-import com.sleepycat.persist.model.Entity;
-import com.sleepycat.persist.model.PrimaryKey;
 
 /**
  * @author Yasser Ganjisaffar
  */
 
-@Entity
 public class WebURL implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @PrimaryKey
     private String url;
 
     private int docid;

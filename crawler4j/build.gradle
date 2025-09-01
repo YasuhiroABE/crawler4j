@@ -1,4 +1,4 @@
-import cl.franciscosolis.sonatypecentralupload.SonatypeCentralUploadTask
+
 
 plugins {
     id  'java'
@@ -21,20 +21,21 @@ configurations.all {
 // https://stackoverflow.com/questions/23796404/could-not-find-method-compile-for-arguments-gradle
 
 dependencies {
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.13'
-    implementation group: 'org.slf4j', name: 'jcl-over-slf4j', version: '2.0.13'
-    implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: '2.0.13'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.17'
+    implementation group: 'org.slf4j', name: 'jcl-over-slf4j', version: '2.0.17'
+    implementation group: 'org.slf4j', name: 'jul-to-slf4j', version: '2.0.17'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
-    implementation group: 'com.sleepycat', name: 'je', version: '18.3.12'
+    implementation group: 'org.apache.derby', name: 'derby', version: '10.17.1.0'
+    implementation group: 'org.apache.derby', name: 'derbytools', version: '10.17.1.0'
 
-    implementation group: 'org.apache.tika', name: 'tika-core', version: '2.9.2'
-    implementation group: 'org.apache.tika', name: 'tika-parsers-standard-package', version: '2.9.2'
-    implementation group: 'org.apache.tika', name: 'tika-langdetect-tika', version: '2.9.2'
+    implementation group: 'org.apache.tika', name: 'tika-core', version: '2.9.4'
+    implementation group: 'org.apache.tika', name: 'tika-parsers-standard-package', version: '2.9.4'
+    implementation group: 'org.apache.tika', name: 'tika-langdetect-tika', version: '2.9.4'
 
     implementation group: 'io.github.pgalbraith', name: 'url-detector', version: '0.1.20'
-    implementation group: 'com.google.guava', name: 'guava', version: '33.2.1-jre'
+    implementation group: 'com.google.guava', name: 'guava', version: '33.4.8-jre'
     implementation group: 'de.malkusch.whois-server-list', name: 'public-suffix-list', version: '2.2.0'
-    runtimeOnly group: 'ch.qos.logback', name: 'logback-classic', version: '1.5.6'
+    runtimeOnly group: 'ch.qos.logback', name: 'logback-classic', version: '1.5.18'
 
     testImplementation group: 'junit', name: 'junit', version: '4.13.2'
     testImplementation group: 'com.github.tomakehurst', name: 'wiremock', version: '3.0.1'

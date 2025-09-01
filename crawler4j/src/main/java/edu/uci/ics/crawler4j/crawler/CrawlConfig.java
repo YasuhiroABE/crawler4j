@@ -288,7 +288,6 @@ public class CrawlConfig {
     /**
      * Set the lock timeout for the underlying sleepycat DB, in milliseconds. Default is 500.
      *
-     * @see com.sleepycat.je.EnvironmentConfig#setLockTimeout(long, java.util.concurrent.TimeUnit)
      * @param dbLockTimeout
      */
     public void setDbLockTimeout(long dbLockTimeout) {

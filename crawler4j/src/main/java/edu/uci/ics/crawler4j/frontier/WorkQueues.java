@@ -17,17 +17,15 @@
 
 package edu.uci.ics.crawler4j.frontier;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sleepycat.je.Cursor;
-import com.sleepycat.je.Database;
-import com.sleepycat.je.DatabaseConfig;
-import com.sleepycat.je.DatabaseEntry;
-import com.sleepycat.je.Environment;
-import com.sleepycat.je.OperationStatus;
-import com.sleepycat.je.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import edu.uci.ics.crawler4j.db.DerbyDatabase;
+import edu.uci.ics.crawler4j.db.DerbyEnvironment;
 import edu.uci.ics.crawler4j.url.WebURL;
 import edu.uci.ics.crawler4j.util.Util;
 
@@ -35,77 +33,61 @@ import edu.uci.ics.crawler4j.util.Util;
  * @author Yasser Ganjisaffar
  */
 public class WorkQueues {
-    private final Database urlsDB;
-    private final Environment env;
+    private static final Logger logger = LoggerFactory.getLogger(WorkQueues.class);
+    protected final DerbyDatabase urlsDB;
+    private final DerbyEnvironment env;
 
     private final boolean resumable;
 
-    private final WebURLTupleBinding webURLBinding;
+    private final WebURLDerbyBinding webURLBinding;
 
     protected final Object mutex = new Object();
 
-    public WorkQueues(Environment env, String dbName, boolean resumable) {
+    public WorkQueues(DerbyEnvironment env, String dbName, boolean resumable) {
         this.env = env;
         this.resumable = resumable;
-        DatabaseConfig dbConfig = new DatabaseConfig();
+        DerbyEnvironment.DerbyDatabaseConfig dbConfig = new DerbyEnvironment.DerbyDatabaseConfig();
         dbConfig.setAllowCreate(true);
         dbConfig.setTransactional(resumable);
         dbConfig.setDeferredWrite(!resumable);
-        urlsDB = env.openDatabase(null, dbName, dbConfig);
-        webURLBinding = new WebURLTupleBinding();
+        urlsDB = env.openDatabase(dbName, dbConfig);
+        webURLBinding = new WebURLDerbyBinding();
     }
 
-    protected Transaction beginTransaction() {
-        return resumable ? env.beginTransaction(null, null) : null;
+    protected DerbyDatabase.DerbyTransaction beginTransaction() {
+        return resumable ? urlsDB.beginTransaction() : null;
     }
 
-    protected static void commit(Transaction tnx) {
+    protected static void commit(DerbyDatabase.DerbyTransaction tnx) {
         if (tnx != null) {
             tnx.commit();
         }
     }
 
-    protected Cursor openCursor(Transaction txn) {
-        return urlsDB.openCursor(txn, null);
-    }
-
     public List<WebURL> get(int max) {
         synchronized (mutex) {
             List<WebURL> results = new ArrayList<>(max);
-            DatabaseEntry key = new DatabaseEntry();
-            DatabaseEntry value = new DatabaseEntry();
-            Transaction txn = beginTransaction();
-            try (Cursor cursor = openCursor(txn)) {
-                OperationStatus result = cursor.getFirst(key, value, null);
-                int matches = 0;
-                while ((matches < max) && (result == OperationStatus.SUCCESS)) {
-                    if (value.getData().length > 0) {
-                        results.add(webURLBinding.entryToObject(value));
-                        matches++;
+            try {
+                List<DerbyDatabase.DerbyCursorEntry> entries = urlsDB.getFirstNEntries(max);
+                for (DerbyDatabase.DerbyCursorEntry entry : entries) {
+                    if (entry.getValue().length > 0) {
+                        results.add(webURLBinding.entryToObject(entry.getValue()));
                     }
-                    result = cursor.getNext(key, value, null);
                 }
+            } catch (SQLException e) {
+                logger.error("Failed to get URLs from database", e);
             }
-            commit(txn);
             return results;
         }
     }
 
     public void delete(int count) {
         synchronized (mutex) {
-            DatabaseEntry key = new DatabaseEntry();
-            DatabaseEntry value = new DatabaseEntry();
-            Transaction txn = beginTransaction();
-            try (Cursor cursor = openCursor(txn)) {
-                OperationStatus result = cursor.getFirst(key, value, null);
-                int matches = 0;
-                while ((matches < count) && (result == OperationStatus.SUCCESS)) {
-                    cursor.delete();
-                    matches++;
-                    result = cursor.getNext(key, value, null);
-                }
+            try {
+                urlsDB.deleteFirstNEntries(count);
+            } catch (SQLException e) {
+                logger.error("Failed to delete URLs from database", e);
             }
-            commit(txn);
         }
     }
 
@@ -120,24 +102,30 @@ public class WorkQueues {
      * If depth is also equal, those found earlier (therefore, smaller docid) will
      * be crawled earlier.
      */
-    protected static DatabaseEntry getDatabaseEntryKey(WebURL url) {
+    protected static String getDatabaseEntryKey(WebURL url) {
         byte[] keyData = new byte[6];
         keyData[0] = url.getPriority();
         keyData[1] = ((url.getDepth() > Byte.MAX_VALUE) ? Byte.MAX_VALUE : (byte) url.getDepth());
         Util.putIntInByteArray(url.getDocid(), keyData, 2);
-        return new DatabaseEntry(keyData);
+        return new String(keyData);
     }
 
     public void put(WebURL url) {
-        DatabaseEntry value = new DatabaseEntry();
-        webURLBinding.objectToEntry(url, value);
-        Transaction txn = beginTransaction();
-        urlsDB.put(txn, getDatabaseEntryKey(url), value);
-        commit(txn);
+        try {
+            byte[] value = webURLBinding.objectToEntry(url);
+            urlsDB.put(getDatabaseEntryKey(url), value);
+        } catch (SQLException e) {
+            logger.error("Failed to put URL in database", e);
+        }
     }
 
     public long getLength() {
-        return urlsDB.count();
+        try {
+            return urlsDB.count();
+        } catch (SQLException e) {
+            logger.error("Failed to get database count", e);
+            return 0;
+        }
     }
 
     public void close() {
