@@ -5,7 +5,7 @@ plugins {
 repositories {
     mavenCentral()
     // Needed for 'com.palantir.docker.compose'
-    maven { url "https://palantir.bintray.com/releases" }
+    maven { url = "https://palantir.bintray.com/releases" }
 }
 
 configurations.all {

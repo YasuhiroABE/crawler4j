@@ -3,7 +3,7 @@ plugins {
 }
 
 wrapper {
-    gradleVersion = '8.9'
+    gradleVersion = '8.13'
     distributionType = Wrapper.DistributionType.ALL
 }
 
@@ -12,7 +12,7 @@ allprojects {
     apply plugin: 'eclipse'
 
     group = 'io.github.yasuhiroabe'
-    version = '1.0.2-SNAPSHOT'
+    version = '1.0.3-SNAPSHOT'
 }
 
 subprojects {
@@ -57,7 +57,7 @@ subprojects {
     def projectName = it.name
     tasks.withType(Test) {
         testLogging {
-            exceptionFormat 'full'
+            exceptionFormat = 'full'
             testLogging { events 'skipped', 'failed', 'standardError' }
             afterSuite { desc, result ->
                 if (!desc.parent) { // will match the outermost suite
