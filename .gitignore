@@ -2,6 +2,7 @@
 .gradle
 build
 envrc
+derby.log
 
 ## Emacs
 *~
