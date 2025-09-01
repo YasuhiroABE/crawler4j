@@ -16,3 +16,6 @@ derby.log
 .settings/
 bin/
 target/
+
+# VSCode
+.vscode/

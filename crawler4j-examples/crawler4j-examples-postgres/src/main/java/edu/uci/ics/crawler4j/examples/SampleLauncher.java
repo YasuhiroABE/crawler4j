@@ -1,9 +1,10 @@
 package edu.uci.ics.crawler4j.examples;
 
+import java.nio.file.Files;
+
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.ClassicConfiguration;
 
-import com.google.common.io.Files;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
@@ -17,7 +18,7 @@ public class SampleLauncher {
 
     public static void main(String[] args) throws Exception {
 
-        String crawlStorageFolder = Files.createTempDir().getAbsolutePath();
+        String crawlStorageFolder = Files.createTempDirectory("crawler4j").toAbsolutePath().toString();
         final int numberOfCrawlers = Integer.valueOf(args[2]);
 
         CrawlConfig config = new CrawlConfig();

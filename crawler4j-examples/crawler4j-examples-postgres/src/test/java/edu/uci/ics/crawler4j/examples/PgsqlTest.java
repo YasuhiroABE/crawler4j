@@ -5,7 +5,6 @@ import java.net.ServerSocket;
 import java.sql.Connection;
 import java.sql.ResultSet;
 
-import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -52,7 +51,7 @@ public class PgsqlTest {
 
         pool.close();
 
-        Assert.assertThat(count, Matchers.greaterThan(0));
+        Assert.assertTrue(count > 0);
     }
 
     private ComboPooledDataSource getTestPool(String jdbcurl) throws PropertyVetoException {
